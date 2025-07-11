@@ -1,0 +1,52 @@
+@page "/lista-servicios"
+@using MinAudiovisual.Servicios.Application.Interfaces
+@using MinAudiovisual.Servicios.Domain.Entities
+@inject IServicioRepository ServicioRepository
+
+<h3>Servicios Registrados</h3>
+
+@if (servicios == null)
+{
+    <p>Cargando...</p>
+}
+else if (!servicios.Any())
+{
+    <p>No hay servicios registrados aún.</p>
+}
+else
+{
+    <table>
+        <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Fecha y Hora</th>
+            <th>Responsable</th>
+            <th>Evento</th>
+            <th>Prédica</th>
+            <th>Orden de Canciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var servicio in servicios)
+        {
+            <tr>
+                <td>@servicio.Tipo</td>
+                <td>@servicio.FechaHora.ToString("g")</td>
+                <td>@servicio.NombreResponsable</td>
+                <td>@servicio.NombreEvento</td>
+                <td>@servicio.Detalle?.Predica</td>
+                <td>@servicio.Detalle?.OrdenCanciones</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Servicio> servicios = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        servicios = await ServicioRepository.GetAllAsync();
+    }
+}
