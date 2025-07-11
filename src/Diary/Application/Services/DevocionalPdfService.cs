@@ -119,11 +119,14 @@ public class DevocionalPdfService : IDevocionalPdfService
                 page.Size(PageSizes.A4);
                 page.Margin(30);
                 page.DefaultTextStyle(x => x.FontSize(12));
+                page.PageColor(Colors.White);
 
                 page.Content().Column(col =>
                 {
                     col.Item().PaddingBottom(20).AlignCenter().Text(nombre).FontSize(18).Bold();
-                    col.Item().AlignCenter().Image(imageBytes).FitArea();
+                    col.Item().AlignCenter()
+                        .Height(500)
+                        .Image(imageBytes).FitHeight();
                     col.Item().AlignCenter().PaddingTop(20).Text("Fuente de Vida Sogamoso");
                 });
             });
