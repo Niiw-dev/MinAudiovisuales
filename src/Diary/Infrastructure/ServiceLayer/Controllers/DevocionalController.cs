@@ -16,7 +16,7 @@ public class DevocionalController : ControllerBase
         _pdfService = pdfService;
     }
 
-    [HttpPost("generar")]
+    [HttpPost("generar-pdf")]
     public async Task<IActionResult> Generar([FromBody] DevocionalDto dto)
     {
         try
@@ -33,8 +33,8 @@ public class DevocionalController : ControllerBase
         }
     }
     
-    [HttpPost("subir")]
-    public async Task<IActionResult> Generar([FromForm] IFormFile imagen, [FromForm] string nombre)
+    [HttpPost("subir-devocional")]
+    public async Task<IActionResult> Subir([FromForm] IFormFile imagen, [FromForm] string nombre)
     {
         if (imagen == null || imagen.Length == 0)
             return BadRequest("Imagen no válida.");

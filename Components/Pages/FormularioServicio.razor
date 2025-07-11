@@ -4,108 +4,108 @@
 @rendermode InteractiveServer
 @inject CreateServicioUseCase CreateServicioUseCase
 
-<EditForm Model="@servicio" OnValidSubmit="GuardarServicio" class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-6">
+<EditForm Model="@servicio" OnValidSubmit="GuardarServicio" class="container mt-4">
     <DataAnnotationsValidator />
-    <ValidationSummary class="text-red-500" />
+    <ValidationSummary class="text-danger" />
 
-    <h2 class="text-2xl font-semibold text-center text-gray-800">Formulario de Servicio</h2>
+    <div class="card shadow p-4">
+        <h2 class="text-center mb-4">Formulario de Servicio</h2>
 
-    <!-- Datos del Servicio -->
-    <div class="space-y-4">
-        <div>
-            <label class="block font-medium text-gray-700">Tipo de Servicio</label>
-            <select @bind="servicio.Tipo" class="w-full border-gray-300 rounded-md shadow-sm">
-                <option disabled selected value="">-- Seleccione --</option>
-                <option value="Oración">Oración</option>
-                <option value="Culto">Culto</option>
-                <option value="Evento">Evento</option>
-            </select>
-        </div>
-
-        @if (servicio.Tipo == "Evento")
-        {
-            <div>
-                <label class="block font-medium text-gray-700">Nombre del Evento</label>
-                <InputText @bind-Value="servicio.NombreEvento" class="w-full border-gray-300 rounded-md shadow-sm" />
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Tipo de Servicio</label>
+                <select @bind="servicio.Tipo" class="form-select">
+                    <option disabled selected value="">-- Seleccione --</option>
+                    <option value="Oración">Oración</option>
+                    <option value="Culto">Culto</option>
+                    <option value="Evento">Evento</option>
+                </select>
             </div>
-        }
 
-        <div>
-            <label class="block font-medium text-gray-700">Fecha y Hora</label>
-            <InputDate @bind-Value="servicio.FechaHora" class="w-full border-gray-300 rounded-md shadow-sm" />
-        </div>
+            @if (servicio.Tipo == "Evento")
+            {
+                <div class="col-md-6">
+                    <label class="form-label">Nombre del Evento</label>
+                    <InputText @bind-Value="servicio.NombreEvento" class="form-control" />
+                </div>
+            }
 
-        <div>
-            <label class="block font-medium text-gray-700">Nombre Responsable</label>
-            <InputText @bind-Value="servicio.NombreResponsable" class="w-full border-gray-300 rounded-md shadow-sm" />
-        </div>
-
-        <div>
-            <label class="block font-medium text-gray-700">Observaciones</label>
-            <InputTextArea @bind-Value="servicio.Observaciones" class="w-full border-gray-300 rounded-md shadow-sm" />
-        </div>
-
-        <div>
-            <label class="block font-medium text-gray-700">¿Qué se puede mejorar?</label>
-            <InputTextArea @bind-Value="servicio.Mejoras" class="w-full border-gray-300 rounded-md shadow-sm" />
-        </div>
-    </div>
-
-    <!-- Detalle del Servicio -->
-    <div class="space-y-4 border-t pt-6">
-        <h3 class="text-xl font-semibold text-gray-800">Detalle del Servicio</h3>
-
-        <div>
-            <label class="block font-medium text-gray-700">Orden de Canciones</label>
-            <InputTextArea @bind-Value="servicio.Detalle.OrdenCanciones" class="w-full border-gray-300 rounded-md shadow-sm" />
-        </div>
-
-        <div class="flex items-center gap-2">
-            <InputCheckbox @bind-Value="servicio.Detalle.HayAnuncios" />
-            <label class="font-medium text-gray-700">¿Hay Anuncios?</label>
-        </div>
-
-        @if (servicio.Detalle.HayAnuncios)
-        {
-            <div>
-                <label class="block font-medium text-gray-700">Detalles de Anuncios</label>
-                <InputText @bind-Value="servicio.Detalle.Anuncios" class="w-full border-gray-300 rounded-md shadow-sm" />
+            <div class="col-md-6">
+                <label class="form-label">Fecha y Hora</label>
+                <InputDate @bind-Value="servicio.FechaHora" class="form-control" />
             </div>
-        }
 
-        <div>
-            <label class="block font-medium text-gray-700">Nombre de Prédica</label>
-            <InputText @bind-Value="servicio.Detalle.Predica" class="w-full border-gray-300 rounded-md shadow-sm" />
-        </div>
-
-        <div>
-            <label class="block font-medium text-gray-700">Canción de Ministración</label>
-            <InputText @bind-Value="servicio.Detalle.CancionMinistracion" class="w-full border-gray-300 rounded-md shadow-sm" />
-        </div>
-
-        <div class="flex items-center gap-2">
-            <InputCheckbox @bind-Value="servicio.Detalle.HaySantaCena" />
-            <label class="font-medium text-gray-700">¿Santa Cena?</label>
-        </div>
-
-        @if (servicio.Detalle.HaySantaCena)
-        {
-            <div>
-                <label class="block font-medium text-gray-700">Canción para Santa Cena</label>
-                <InputText @bind-Value="servicio.Detalle.CancionSantaCena" class="w-full border-gray-300 rounded-md shadow-sm" />
+            <div class="col-md-6">
+                <label class="form-label">Nombre Responsable</label>
+                <InputText @bind-Value="servicio.NombreResponsable" class="form-control" />
             </div>
-        }
 
-        <div>
-            <label class="block font-medium text-gray-700">Observaciones Adicionales</label>
-            <InputTextArea @bind-Value="servicio.Detalle.ObservacionesAdicionales" class="w-full border-gray-300 rounded-md shadow-sm" />
+            <div class="col-12">
+                <label class="form-label">Observaciones</label>
+                <InputTextArea @bind-Value="servicio.Observaciones" class="form-control" />
+            </div>
+
+            <div class="col-12">
+                <label class="form-label">¿Qué se puede mejorar?</label>
+                <InputTextArea @bind-Value="servicio.Mejoras" class="form-control" />
+            </div>
         </div>
-    </div>
 
-    <div class="text-center pt-6">
-        <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm">
-            Guardar Servicio
-        </button>
+        <!-- Detalle del Servicio -->
+        <hr class="my-4" />
+        <h4>Detalle del Servicio</h4>
+
+        <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label">Orden de Canciones</label>
+                <InputTextArea @bind-Value="servicio.Detalle.OrdenCanciones" class="form-control" />
+            </div>
+
+            <div class="col-12 form-check">
+                <InputCheckbox @bind-Value="servicio.Detalle.HayAnuncios" class="form-check-input" id="anunciosCheck" />
+                <label for="anunciosCheck" class="form-check-label">¿Hay Anuncios?</label>
+            </div>
+
+            @if (servicio.Detalle.HayAnuncios)
+            {
+                <div class="col-12">
+                    <label class="form-label">Detalles de Anuncios</label>
+                    <InputText @bind-Value="servicio.Detalle.Anuncios" class="form-control" />
+                </div>
+            }
+
+            <div class="col-md-6">
+                <label class="form-label">Nombre de Prédica</label>
+                <InputText @bind-Value="servicio.Detalle.Predica" class="form-control" />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Canción de Ministración</label>
+                <InputText @bind-Value="servicio.Detalle.CancionMinistracion" class="form-control" />
+            </div>
+
+            <div class="col-12 form-check">
+                <InputCheckbox @bind-Value="servicio.Detalle.HaySantaCena" class="form-check-input" id="santaCenaCheck" />
+                <label for="santaCenaCheck" class="form-check-label">¿Santa Cena?</label>
+            </div>
+
+            @if (servicio.Detalle.HaySantaCena)
+            {
+                <div class="col-12">
+                    <label class="form-label">Canción para Santa Cena</label>
+                    <InputText @bind-Value="servicio.Detalle.CancionSantaCena" class="form-control" />
+                </div>
+            }
+
+            <div class="col-12">
+                <label class="form-label">Observaciones Adicionales</label>
+                <InputTextArea @bind-Value="servicio.Detalle.ObservacionesAdicionales" class="form-control" />
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary px-5">Guardar Servicio</button>
+        </div>
     </div>
 </EditForm>
 
@@ -115,6 +115,6 @@
     private async Task GuardarServicio()
     {
         await CreateServicioUseCase.ExecuteAsync(servicio);
-        servicio = new(); // Reiniciar el formulario
+        servicio = new(); // Reiniciar formulario
     }
 }
