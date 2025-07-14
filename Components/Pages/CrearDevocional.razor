@@ -6,128 +6,77 @@
 @rendermode InteractiveServer
 
 <link href="css/plantillaDevo.css" rel="stylesheet" />
-
-<div class="separeI">
-    <div class="title-box-SB">
-        <h1>Subir Devocional</h1>
-    </div>
-
-    <EditForm Model="@devocional" OnValidSubmit="SubirDevocional" FormName="SubirDevocionalForm" class="form-SB">
-        <div class="name-box-SB">
-            <label>Nombre:</label>
-            <InputText @bind-Value="devocional.Nombre" class="input form-control" />
-        </div>
-
-        <div class="file-box-SB">
-            <label>Selecciona imagen:</label>
-            <InputFile class="form-control" OnChange="OnInputFileChange" />
-        </div>
-
-        <div class="button-box-SB">
-            <button class="btn btn-primary w-100" type="submit">Subir Devocional</button>
-        </div>
-        
-        @if (!string.IsNullOrWhiteSpace(mensajeExito))
-        {
-            <div class="alert alert-success mt-2">@mensajeExito</div>
-        }
-        @if (!string.IsNullOrWhiteSpace(mensajeError))
-        {
-            <div class="alert alert-danger mt-2">@mensajeError</div>
-        }
-
-    </EditForm>
-    
-    <div class="title-box">
-        <h1>Hacer Devocional</h1>
-    </div>
-    
-    <EditForm Model="@devocional" OnValidSubmit="GenerarPDF" FormName="CrearDevocionalForm" class="form">
-        <div class="name-box">
-            <label>Nombre:</label>
-            <InputText @bind-Value="devocional.Nombre" class="input form-control"/>
-        </div>
-
-        <div class="theme-box">
-            <label>Tema:</label>
-            <InputText @bind-Value="devocional.Tema" class="input form-control"/>
-        </div>
-
-        <div class="verses-box">
-            <label>Versículos:</label>
-            <InputTextArea class="form-control" @bind-Value="devocional.Versiculos"/>
-        </div>
-
-        <div class="promises-box" style="height: 100%">
-            <label>Promesa o Mandamiento:</label>
-            <InputTextArea class="form-control" @bind-Value="devocional.Promesa"/>
-        </div>
-
-        <div class="practice-box" style="height: 100%">
-            <label>Para poner en práctica:</label>
-            <InputTextArea class="form-control" @bind-Value="devocional.Practica"/>
-        </div>
-    
-        <div class="button-box">
-            <button class="btn btn-primary w-100" type="submit">Guardar y Generar PDF</button>
-        </div>
-    </EditForm>
-</div>
-
-<div class="separe">
-    <div class="title-box-SB">
-        <h1>Pasos Para Hacer Tu Devocional</h1>
-    </div>
-
-    <div class="content">
-        <div class="card">
-            <div class="title-card card-title">
-                <h2>1| </h2>
-                <h3>ELIGE UN LIBRO DE LA BIBLIA</h3>
+<div class="third-div">
+    <div class="oneSepare">
+        <div class="separeI">
+            <div class="title-box-SB">
+                <h1>Subir Devocional</h1>
             </div>
-            <p class="card-text">No te recomiendo abrir tu Biblia al azar para leerla en tu devocional. Hacer esto te hara perder los aspectos
-            importantes del texto y contexto de lo que estás leyendo.</p>
+
+            <EditForm Model="@devocional" OnValidSubmit="SubirDevocional" FormName="SubirDevocionalForm" class="form-SB">
+                <div class="name-box-SB">
+                    <label>Nombre:</label>
+                    <InputText @bind-Value="devocional.Nombre" class="input form-control"/>
+                </div>
+
+                <div class="file-box-SB">
+                    <label>Selecciona imagen:</label>
+                    <InputFile class="form-control" OnChange="OnInputFileChange"/>
+                </div>
+
+                <div class="button-box-SB">
+                    <button class="btn btn-primary w-100" type="submit">Subir Devocional</button>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(mensajeExito))
+                {
+                    <div class="alert alert-success mt-2">@mensajeExito</div>
+                }
+                @if (!string.IsNullOrWhiteSpace(mensajeError))
+                {
+                    <div class="alert alert-danger mt-2">@mensajeError</div>
+                }
+
+            </EditForm>
         </div>
-        <div class="card">
-            <div class="title-card card-title"><h2>2| </h2><h3>ELIGE UN LUGAR FIJO EN TU CASA</h3></div>
-            <p class="card-text">Jamás hagas un devocional desde la comodidad de tu cama. Empezarás leyendo unas líneas de la Biblia y 
-                terminarás más dormido que la bella durmiente.</p>
-        </div>
-        <div class="card">
-            <div class="title-card card-title"><h2>3| </h2><h3>TEN A LA MANO LOS RECURSOS</h3></div>
-            <p class="card-text">Debes tener a la mano todo aquello que emplearás para realizar tu devocional. Tu Biblia, un cuaderno, 
-                un lapicero (bolígrafo), marcadores, colores y sacapuntas, deben estar a tu alcance.</p>
-        </div>
-        <div class="card">
-            <div class="title-card card-title"><h2>4| </h2><h3>INICIA CON UNA ORACIÓN</h3></div>
-            <p class="card-text">La Biblia es el alimento para tu alma y tal como haces con todos tus alimentos diarios debes orar 
-                antes de comer.</p>
-        </div>
-        <div class="card">
-            <div class="title-card card-title"><h2>5| </h2><h3>LEE, MARCA Y APUNTA</h3></div>
-            <p class="card-text">Vas a leer con un lapicero (bolígrafo) o marcador a la mano para marcar todo aquello que te llame la 
-                atención, es decir, un versículo que más te impacte, alguna palabra que puedas añadir a tu diccionario, 
-                y el resumen de aquello de lo que has leído.</p>
-        </div>
-        <div class="card">
-            <div class="title-card card-title"><h2>6| </h2><h3>MEDITA EN TU LECTURA</h3></div>
-            <p class="card-text">Algunas preguntas que debes hacer durante la meditación son: ¿Por qué es importante este pasaje?<br/> 
-                ¿Qué necesito saber? <br/> ¿Qué  dice acerca de Dios? <br/> ¿Qué dice de mí? <br/> 
-                ¿Cómo me apunta esta lectura a Jesús?</p>
-        </div>
-        <div class="card">
-            <div class="title-card card-title"><h2>7| </h2><h3>FIN CON ORACIÓN</h3></div>
-            <p class="card-text">Termina tu tiempo devocional con una oración pero ten en cuenta lo que Dios te acaba de decir a través de lo que has leído.</p>
-        </div>
-        <div class="card">
-            <div class="title-card card-title"><h2>8| </h2><h3>MEMORIZA TU LECTURA</h3></div>
-            <p class="card-text">En algunas oportunidades durante tu lectura devocional vas a encontrar versículos biblicos que vas a 
-                marcar para luego memorizar. Si ese es el caso, anótalo en un papel aparte que pueda servirte como 
-                una nota para llevar a todos lados.</p>
+        <div class="separe">
+            <div class="title-box">
+                <h1>Hacer Devocional</h1>
+            </div>
+
+            <EditForm Model="@devocional" OnValidSubmit="GenerarPDF" FormName="CrearDevocionalForm" class="form">
+                <div class="name-box">
+                    <label>Nombre:</label>
+                    <InputText @bind-Value="devocional.Nombre" class="input form-control"/>
+                </div>
+
+                <div class="theme-box">
+                    <label>Tema:</label>
+                    <InputText @bind-Value="devocional.Tema" class="input form-control"/>
+                </div>
+
+                <div class="verses-box">
+                    <label>Versículos:</label>
+                    <InputTextArea class="form-control" @bind-Value="devocional.Versiculos"/>
+                </div>
+
+                <div class="promises-box" style="height: 100%">
+                    <label>Promesa o Mandamiento:</label>
+                    <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Promesa"/>
+                </div>
+
+                <div class="practice-box" style="height: 100%">
+                    <label>Para poner en práctica:</label>
+                    <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Practica"/>
+                </div>
+
+                <div class="button-box">
+                    <button class="btn btn-primary w-100" type="submit">Guardar y Generar PDF</button>
+                </div>
+            </EditForm>
         </div>
     </div>
 </div>
-    
 
 @code {
     private DevocionalDto devocional = new();
@@ -196,3 +145,77 @@
         }
     }
 }
+
+
+
+
+
+
+
+@* <div class="twoSepare"> *@
+@*     <div class="title-box-SB"> *@
+@*         <h1>Pasos Para Hacer Tu Devocional</h1> *@
+@*     </div> *@
+@* *@
+@*     <div class="content"> *@
+@*         <div class="card"> *@
+@*             <div class="title-card card-title"> *@
+@*                 <h2>1| </h2> *@
+@*                 <h3>ELIGE UN LIBRO DE LA BIBLIA</h3> *@
+@*             </div> *@
+@*             <p class="card-text">No te recomiendo abrir tu Biblia al azar para leerla en tu devocional. Hacer esto te hara perder los aspectos *@
+@*                 importantes del texto y contexto de lo que estás leyendo.</p> *@
+@*         </div> *@
+@*         <div class="card"> *@
+@*             <div class="title-card card-title"> *@
+@*                 <h2>2| </h2> *@
+@*                 <h3>ELIGE UN LUGAR FIJO EN TU CASA</h3></div> *@
+@*             <p class="card-text">Jamás hagas un devocional desde la comodidad de tu cama. Empezarás leyendo unas líneas de la Biblia y *@
+@*                 terminarás más dormido que la bella durmiente.</p> *@
+@*         </div> *@
+@*         <div class="card"> *@
+@*             <div class="title-card card-title"> *@
+@*                 <h2>3| </h2> *@
+@*                 <h3>TEN A LA MANO LOS RECURSOS</h3></div> *@
+@*             <p class="card-text">Debes tener a la mano todo aquello que emplearás para realizar tu devocional. Tu Biblia, un cuaderno, *@
+@*                 un lapicero (bolígrafo), marcadores, colores y sacapuntas, deben estar a tu alcance.</p> *@
+@*         </div> *@
+@*         <div class="card"> *@
+@*             <div class="title-card card-title"> *@
+@*                 <h2>4| </h2> *@
+@*                 <h3>INICIA CON UNA ORACIÓN</h3></div> *@
+@*             <p class="card-text">La Biblia es el alimento para tu alma y tal como haces con todos tus alimentos diarios debes orar *@
+@*                 antes de comer.</p> *@
+@*         </div> *@
+@*         <div class="card"> *@
+@*             <div class="title-card card-title"> *@
+@*                 <h2>5| </h2> *@
+@*                 <h3>LEE, MARCA Y APUNTA</h3></div> *@
+@*             <p class="card-text">Vas a leer con un lapicero (bolígrafo) o marcador a la mano para marcar todo aquello que te llame la *@
+@*                 atención, es decir, un versículo que más te impacte, alguna palabra que puedas añadir a tu diccionario, *@
+@*                 y el resumen de aquello de lo que has leído.</p> *@
+@*         </div> *@
+@*         <div class="card"> *@
+@*             <div class="title-card card-title"> *@
+@*                 <h2>6| </h2> *@
+@*                 <h3>MEDITA EN TU LECTURA</h3></div> *@
+@*             <p class="card-text">Algunas preguntas que debes hacer durante la meditación son: ¿Por qué es importante este pasaje?<br/> *@
+@*                 ¿Qué necesito saber? <br/> ¿Qué dice acerca de Dios? <br/> ¿Qué dice de mí? <br/> *@
+@*                 ¿Cómo me apunta esta lectura a Jesús?</p> *@
+@*         </div> *@
+@*         <div class="card"> *@
+@*             <div class="title-card card-title"> *@
+@*                 <h2>7| </h2> *@
+@*                 <h3>FIN CON ORACIÓN</h3></div> *@
+@*             <p class="card-text">Termina tu tiempo devocional con una oración pero ten en cuenta lo que Dios te acaba de decir a través de lo que has leído.</p> *@
+@*         </div> *@
+@*         <div class="card"> *@
+@*             <div class="title-card card-title"> *@
+@*                 <h2>8| </h2> *@
+@*                 <h3>MEMORIZA TU LECTURA</h3></div> *@
+@*             <p class="card-text">En algunas oportunidades durante tu lectura devocional vas a encontrar versículos biblicos que vas a *@
+@*                 marcar para luego memorizar. Si ese es el caso, anótalo en un papel aparte que pueda servirte como *@
+@*                 una nota para llevar a todos lados.</p> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@

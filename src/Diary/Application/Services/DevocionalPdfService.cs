@@ -125,7 +125,7 @@ public class DevocionalPdfService : IDevocionalPdfService
                 {
                     col.Item().PaddingBottom(20).AlignCenter().Text(nombre).FontSize(18).Bold();
                     col.Item().AlignCenter()
-                        .Height(500)
+                        .Height(700)
                         .Image(imageBytes).FitHeight();
                     col.Item().AlignCenter().PaddingTop(20).Text("Fuente de Vida Sogamoso");
                 });
