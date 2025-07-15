@@ -7,7 +7,7 @@
 
 <link href="css/plantillaDevo.css" rel="stylesheet" />
 <div class="third-div">
-    <div class="oneSepare">
+    <div class="oneSepare shadow p-4">
         <div class="separeI">
             <div class="title-box-SB">
                 <h1>Subir Devocional</h1>
@@ -39,6 +39,7 @@
 
             </EditForm>
         </div>
+        
         <div class="separe">
             <div class="title-box">
                 <h1>Hacer Devocional</h1>
@@ -57,7 +58,7 @@
 
                 <div class="verses-box">
                     <label>Versículos:</label>
-                    <InputTextArea class="form-control" @bind-Value="devocional.Versiculos"/>
+                    <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Versiculos"/>
                 </div>
 
                 <div class="promises-box" style="height: 100%">

@@ -1,0 +1,9 @@
+.table-responsive{
+    border: 1px solid #ddd;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+}
+
+.table{
+    margin-bottom: 0 !important;
+}
