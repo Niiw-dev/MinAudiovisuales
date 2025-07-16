@@ -18,10 +18,9 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-hover table-bordered align-middle">
+            <table class="table table-hover table-bordered align-middle text-center">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Fecha</th>
                         <th>Documento</th>
@@ -31,7 +30,6 @@
                     @foreach (var devocional in devocionales)
                     {
                         <tr>
-                            <td>@devocional.Id</td>
                             <td>@devocional.Nombre</td>
                             <td>@devocional.FechaCreado.ToString("dd/MM/yyyy")</td>
                             <td>

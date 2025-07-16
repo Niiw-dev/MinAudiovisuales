@@ -19,30 +19,39 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-striped table-bordered align-middle">
+            <table class="table table-striped table-bordered align-middle text-center">
+            @foreach (var servicio in servicios)
+            {
                 <thead class="table-dark">
                 <tr>
-                    <th>Tipo</th>
-                    <th>Fecha y Hora</th>
-                    <th>Responsable</th>
+                    <th>Día</th>
+                    <th>Hora</th>
+                    <th>Tipo Servicio</th>
                     <th>Evento</th>
+                    <th>Responsable</th>
                     <th>Prédica</th>
                     <th>Orden de Canciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (var servicio in servicios)
-                {
-                    <tr>
-                        <td>@servicio.Tipo</td>
-                        <td>@servicio.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
-                        <td>@servicio.NombreResponsable</td>
+                <tr>
+                    <td>@servicio.FechaHora.ToString("dd/MM/yyyy")</td>
+                    <td>@servicio.FechaHora.ToString("hh:mm")</td>
+                    <td>@servicio.Tipo</td>
+                    @if (servicio.Tipo == "Evento")
+                    {
                         <td>@servicio.NombreEvento</td>
-                        <td>@servicio.Detalle?.Predica</td>
-                        <td>@servicio.Detalle?.OrdenCanciones</td>
-                    </tr>
-                }
+                    }
+                    else
+                    {
+                        <td>@servicio.Tipo</td>
+                    }
+                    <td>@servicio.NombreResponsable</td>
+                    <td>@servicio.Detalle?.Predica</td>
+                    <td>@servicio.Detalle?.OrdenCanciones</td>
+                </tr>
                 </tbody>
+            }
             </table>
         </div>
     }

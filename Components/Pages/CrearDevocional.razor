@@ -5,76 +5,72 @@
 @inject HttpClient Http
 @rendermode InteractiveServer
 
-<link href="css/plantillaDevo.css" rel="stylesheet" />
-<div class="third-div">
-    <div class="oneSepare shadow p-4">
-        <div class="separeI">
-            <div class="title-box-SB">
-                <h1>Subir Devocional</h1>
-            </div>
+<div class="container my-4">
+    <div class="row g-4">
+        <!-- Subir Devocional -->
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h3 class="mb-4">Subir Devocional</h3>
 
-            <EditForm Model="@devocional" OnValidSubmit="SubirDevocional" FormName="SubirDevocionalForm" class="form-SB">
-                <div class="name-box-SB">
-                    <label>Nombre:</label>
-                    <InputText @bind-Value="devocional.Nombre" class="input form-control"/>
-                </div>
+                <EditForm Model="@devocional" OnValidSubmit="SubirDevocional" FormName="SubirDevocionalForm">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre:</label>
+                        <InputText @bind-Value="devocional.Nombre" class="form-control" />
+                    </div>
 
-                <div class="file-box-SB">
-                    <label>Selecciona imagen:</label>
-                    <InputFile class="form-control" OnChange="OnInputFileChange"/>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Selecciona imagen:</label>
+                        <InputFile class="form-control" OnChange="OnInputFileChange" />
+                    </div>
 
-                <div class="button-box-SB">
                     <button class="btn btn-primary w-100" type="submit">Subir Devocional</button>
-                </div>
 
-                @if (!string.IsNullOrWhiteSpace(mensajeExito))
-                {
-                    <div class="alert alert-success mt-2">@mensajeExito</div>
-                }
-                @if (!string.IsNullOrWhiteSpace(mensajeError))
-                {
-                    <div class="alert alert-danger mt-2">@mensajeError</div>
-                }
-
-            </EditForm>
-        </div>
-        
-        <div class="separe">
-            <div class="title-box">
-                <h1>Hacer Devocional</h1>
+                    @if (!string.IsNullOrWhiteSpace(mensajeExito))
+                    {
+                        <div class="alert alert-success mt-3">@mensajeExito</div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(mensajeError))
+                    {
+                        <div class="alert alert-danger mt-3">@mensajeError</div>
+                    }
+                </EditForm>
             </div>
+        </div>
 
-            <EditForm Model="@devocional" OnValidSubmit="GenerarPDF" FormName="CrearDevocionalForm" class="form">
-                <div class="name-box">
-                    <label>Nombre:</label>
-                    <InputText @bind-Value="devocional.Nombre" class="input form-control"/>
-                </div>
+        <!-- Hacer Devocional -->
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h3 class="mb-4">Hacer Devocional</h3>
 
-                <div class="theme-box">
-                    <label>Tema:</label>
-                    <InputText @bind-Value="devocional.Tema" class="input form-control"/>
-                </div>
+                <EditForm Model="@devocional" OnValidSubmit="GenerarPDF" FormName="CrearDevocionalForm">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre:</label>
+                        <InputText @bind-Value="devocional.Nombre" class="form-control" />
+                    </div>
 
-                <div class="verses-box">
-                    <label>Versículos:</label>
-                    <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Versiculos"/>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tema:</label>
+                        <InputText @bind-Value="devocional.Tema" class="form-control" />
+                    </div>
 
-                <div class="promises-box" style="height: 100%">
-                    <label>Promesa o Mandamiento:</label>
-                    <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Promesa"/>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Versículos:</label>
+                        <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Versiculos" />
+                    </div>
 
-                <div class="practice-box" style="height: 100%">
-                    <label>Para poner en práctica:</label>
-                    <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Practica"/>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Promesa o Mandamiento:</label>
+                        <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Promesa" />
+                    </div>
 
-                <div class="button-box">
+                    <div class="mb-3">
+                        <label class="form-label">Para poner en práctica:</label>
+                        <InputTextArea class="form-control" style="resize: none;" @bind-Value="devocional.Practica" />
+                    </div>
+
                     <button class="btn btn-primary w-100" type="submit">Guardar y Generar PDF</button>
-                </div>
-            </EditForm>
+                </EditForm>
+            </div>
         </div>
     </div>
 </div>
@@ -86,14 +82,11 @@
     {
         var response = await Http.PostAsJsonAsync("api/devocional/generar-pdf", devocional);
         var stream = await response.Content.ReadAsStreamAsync();
-        Console.WriteLine("response: "+response);
-        Console.WriteLine("stream: "+stream);
         using var fs = new FileStream("devocional.pdf", FileMode.Create);
         await stream.CopyToAsync(fs);
     }
-    
-    private IBrowserFile? imagen;
 
+    private IBrowserFile? imagen;
     private string mensajeExito = "";
     private string mensajeError = "";
 
@@ -108,7 +101,7 @@
         mensajeError = "";
 
         if (imagen is null || string.IsNullOrWhiteSpace(devocional.Nombre))
-        {   
+        {
             mensajeError = "Faltan datos.";
             return;
         }
@@ -116,15 +109,10 @@
         var content = new MultipartFormDataContent();
         var fileContent = new StreamContent(imagen.OpenReadStream(maxAllowedSize: 10_000_000));
 
-        if (!string.IsNullOrWhiteSpace(imagen.ContentType))
-        {
-            fileContent.Headers.ContentType = new MediaTypeHeaderValue(imagen.ContentType);
-        }
-        else
-        {
-            fileContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-        }
-        
+        fileContent.Headers.ContentType = !string.IsNullOrWhiteSpace(imagen.ContentType)
+            ? new MediaTypeHeaderValue(imagen.ContentType)
+            : new MediaTypeHeaderValue("image/png");
+
         content.Add(fileContent, "imagen", imagen.Name);
         content.Add(new StringContent(devocional.Nombre), "nombre");
 
@@ -146,10 +134,6 @@
         }
     }
 }
-
-
-
-
 
 
 
