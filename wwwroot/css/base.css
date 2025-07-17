@@ -16,6 +16,9 @@
 .container{
     height: 100% !important;
 }
+.row,.col-md-6,.card{
+    height: 100% !important;
+}
 
 .card{
     height: 100% !important;
@@ -24,5 +27,20 @@
 @media (min-width: 1400px) {
     .container{
         max-width: 82% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .orden-xl-col {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .orden-xl-col < .col-md-6:nth-child(1) {
+        order: 1;
+    }
+
+    .orden-xl-col < .col-md-6:nth-child(2) {
+        order: 2;
     }
 }

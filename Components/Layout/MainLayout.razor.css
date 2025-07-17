@@ -2,15 +2,17 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 90vh;
 }
 
 main {
     flex: 1;
+    height: 100%;
 }
 
 .main{
     margin-top: 6rem;
+    height: 100%;
 }
 
 .top-row {
@@ -170,5 +172,10 @@ main {
 
     .nav-text {
         display: none;
+    }
+
+    .main {
+        min-width: 330px;
+        margin-top: 8rem;
     }
 }
