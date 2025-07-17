@@ -5,40 +5,64 @@
 @inject HttpClient Http
 @rendermode InteractiveServer
 
+<style>
+    .input-pair {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .input-block {
+        flex: 1 1 250px;
+        min-width: 200px;
+    }
+
+    .input-block label {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+    }
+
+    .input-block .form-control {
+        height: 34px;
+        font-size: 0.9rem;
+    }
+</style>
+
 <div class="container my-4">
-    <div class="row g-4 orden-xl-col">
+    <div class="row g-4">
         <!-- Subir Devocional -->
-        <div class="col-md-6">
+        <div class="col-12">
             <div class="card shadow p-4">
                 <h3 class="mb-4">Subir Devocional</h3>
 
                 <EditForm Model="@devocional" OnValidSubmit="SubirDevocional" FormName="SubirDevocionalForm">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre:</label>
-                        <InputText @bind-Value="devocional.Nombre" class="form-control" />
-                    </div>
+                    <div class="input-pair">
+                        <div class="input-block">
+                            <label>Nombre:</label>
+                            <InputText class="form-control" @bind-Value="devocional.Nombre" />
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Selecciona imagen:</label>
-                        <InputFile class="form-control" OnChange="OnInputFileChange" />
+                        <div class="input-block">
+                            <label>Selecciona imagen:</label>
+                            <InputFile class="form-control" OnChange="OnInputFileChange" />
+                        </div>
+                        <button class="btn btn-primary w-100 mt-2" type="submit">Subir Devocional</button>
                     </div>
-
-                    <button class="btn btn-primary w-100" type="submit">Subir Devocional</button>
 
                     @if (!string.IsNullOrWhiteSpace(mensajeExito))
                     {
-                        <div class="alert alert-success mt-3">@mensajeExito</div>
+                    <div class="alert alert-success mt-3">@mensajeExito</div>
                     }
                     @if (!string.IsNullOrWhiteSpace(mensajeError))
                     {
-                        <div class="alert alert-danger mt-3">@mensajeError</div>
+                    <div class="alert alert-danger mt-3">@mensajeError</div>
                     }
                 </EditForm>
             </div>
         </div>
 
         <!-- Hacer Devocional -->
-        <div class="col-md-6">
+        <div class="col-12">
             <div class="card shadow p-4">
                 <h3 class="mb-4">Hacer Devocional</h3>
 
