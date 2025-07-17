@@ -51,57 +51,59 @@
             </div>
         </div>
 
-        <!-- Detalle del Servicio -->
-        <hr class="my-4" />
-        <h4>Detalle del Servicio</h4>
+        @if (servicio.Tipo == "Culto"){
+            <!-- Detalle del Servicio -->
+            <hr class="my-4" />
+            <h4>Detalle del Servicio</h4>
 
-        <div class="row g-3">
-            <div class="col-12">
-                <label class="form-label">Orden de Canciones</label>
-                <InputTextArea @bind-Value="servicio.Detalle.OrdenCanciones" class="form-control" />
-            </div>
-
-            <div class="col-12 form-check">
-                <InputCheckbox @bind-Value="servicio.Detalle.HayAnuncios" class="form-check-input" id="anunciosCheck" />
-                <label for="anunciosCheck" class="form-check-label">¿Hay Anuncios?</label>
-            </div>
-
-            @if (servicio.Detalle.HayAnuncios)
-            {
+            <div class="row g-3">
                 <div class="col-12">
-                    <label class="form-label">Detalles de Anuncios</label>
-                    <InputText @bind-Value="servicio.Detalle.Anuncios" class="form-control" />
+                    <label class="form-label">Orden de Canciones</label>
+                    <InputTextArea @bind-Value="servicio.Detalle.OrdenCanciones" class="form-control" />
                 </div>
-            }
 
-            <div class="col-md-6">
-                <label class="form-label">Nombre de Prédica</label>
-                <InputText @bind-Value="servicio.Detalle.Predica" class="form-control" />
-            </div>
+                <div class="col-12 form-check">
+                    <InputCheckbox @bind-Value="servicio.Detalle.HayAnuncios" class="form-check-input" id="anunciosCheck" />
+                    <label for="anunciosCheck" class="form-check-label">¿Anuncios?</label>
+                </div>
 
-            <div class="col-md-6">
-                <label class="form-label">Canción de Ministración</label>
-                <InputText @bind-Value="servicio.Detalle.CancionMinistracion" class="form-control" />
-            </div>
+                @if (servicio.Detalle.HayAnuncios)
+                {
+                    <div class="col-12">
+                        <label class="form-label">Detalles de Anuncios</label>
+                        <InputText @bind-Value="servicio.Detalle.Anuncios" class="form-control" />
+                    </div>
+                }
 
-            <div class="col-12 form-check">
-                <InputCheckbox @bind-Value="servicio.Detalle.HaySantaCena" class="form-check-input" id="santaCenaCheck" />
-                <label for="santaCenaCheck" class="form-check-label">¿Santa Cena?</label>
-            </div>
+                <div class="col-md-6">
+                    <label class="form-label">Nombre de Prédica</label>
+                    <InputText @bind-Value="servicio.Detalle.Predica" class="form-control" />
+                </div>
 
-            @if (servicio.Detalle.HaySantaCena)
-            {
+                <div class="col-md-6">
+                    <label class="form-label">Canción de Ministración</label>
+                    <InputText @bind-Value="servicio.Detalle.CancionMinistracion" class="form-control" />
+                </div>
+
+                <div class="col-12 form-check">
+                    <InputCheckbox @bind-Value="servicio.Detalle.HaySantaCena" class="form-check-input" id="santaCenaCheck" />
+                    <label for="santaCenaCheck" class="form-check-label">¿Santa Cena?</label>
+                </div>
+
+                @if (servicio.Detalle.HaySantaCena)
+                {
+                    <div class="col-12">
+                        <label class="form-label">Canción para Santa Cena</label>
+                        <InputText @bind-Value="servicio.Detalle.CancionSantaCena" class="form-control" />
+                    </div>
+                }
+
                 <div class="col-12">
-                    <label class="form-label">Canción para Santa Cena</label>
-                    <InputText @bind-Value="servicio.Detalle.CancionSantaCena" class="form-control" />
+                    <label class="form-label">Observaciones Adicionales</label>
+                    <InputTextArea @bind-Value="servicio.Detalle.ObservacionesAdicionales" class="form-control" />
                 </div>
-            }
-
-            <div class="col-12">
-                <label class="form-label">Observaciones Adicionales</label>
-                <InputTextArea @bind-Value="servicio.Detalle.ObservacionesAdicionales" class="form-control" />
             </div>
-        </div>
+        }
 
         <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary px-5">Guardar Servicio</button>
