@@ -4,6 +4,25 @@
     margin-bottom: 1rem;
 }
 
-.table{
+.table, th, td{
     margin-bottom: 0 !important;
+    align-items: center;
+}
+
+/*tr{*/
+/*    display: block;*/
+/*}*/
+
+.container{
+    height: 100% !important;
+}
+
+.card{
+    height: 100% !important;
+}
+
+@media (min-width: 1400px) {
+    .container{
+        max-width: 82% !important;
+    }
 }
