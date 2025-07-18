@@ -21,7 +21,7 @@ public class DevocionalController : ControllerBase
     {
         try
         {
-            Console.WriteLine($"Nombre: {dto.Nombre}, Tema: {dto.Tema}, Versículos: {dto.Versiculos}");
+            Console.WriteLine("---Generando PDF---");
             var pdf = await _pdfService.GeneratePdf(dto);
             return File(pdf, "application/pdf", $"devocional_{dto.Fecha:yyyyMMdd}.pdf");
         }

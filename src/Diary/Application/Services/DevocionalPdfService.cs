@@ -38,60 +38,66 @@ public class DevocionalPdfService : IDevocionalPdfService
             {
                 page.Size(PageSizes.A4);
                 page.Margin(30);
+                page.Background().AlignCenter().AlignMiddle().Image(Image.FromFile("wwwroot/images/Logo.png")).FitArea();
+                
                 page.DefaultTextStyle(x => x.FontSize(12));
                 
                 page.Content().Column(col =>
                 {
-                    col.Item().PaddingBottom(20).AlignCenter().Text("Devocional").FontSize(20).Bold();
-
-                    // Primera fila: Nombre y Fecha
-                    col.Item().PaddingBottom(20).Row(row =>
-                    {
-                        row.RelativeItem(3).Column(c =>
-                        {
-                            c.Item().Text("Nombre:").Bold();
-                            c.Item().Text(dto.Nombre);
-                        });
-
-                        row.RelativeItem(2).Column(c =>
-                        {
-                            c.Item().Text("Fecha:").Bold();
-                            c.Item().Text($"{dto.Fecha:dd/MM/yyyy}");
-                        });
-                    });
-
-                    // Segunda fila: Tema
-                    col.Item().PaddingBottom(20).Column(c =>
-                    {
-                        c.Item().Text("Tema:").Bold();
-                        c.Item().Text(dto.Tema);
-                    });
-
-                    // Tercera fila: Versículos
-                    col.Item().PaddingBottom(20).Column(c =>
-                    {
-                        c.Item().Text("Versículos:").Bold();
-                        c.Item().Text(dto.Versiculos).Italic();
-                    });
-
-                    // Cuarta fila: Promesa y Práctica (en columnas)
                     col.Item().Row(row =>
                     {
-                        row.RelativeItem(1).Column(c =>
+                        row.RelativeItem().Column(c =>
                         {
-                            c.Item().Text("Promesa o Mandamiento:").Bold();
-                            c.Item().Text(dto.Promesa);
+                            c.Item().AlignLeft().Text(dto.Nombre).Bold();
                         });
 
-                        row.RelativeItem(1).Column(c =>
+                        row.RelativeItem().Column(c =>
                         {
-                            c.Item().Text("Para poner en práctica:").Bold();
-                            c.Item().Text(dto.Practica);
+                            c.Item().AlignRight().Text($"{dto.Fecha:dd/MM/yyyy}").FontSize(10).Bold();
+                        });
+                    });
+                    
+                    col.Item().AlignCenter().Text("Devocional").FontSize(22).Bold();
+                    col.Item().PaddingBottom(20).AlignCenter().Text(dto.Tema).FontSize(18).Bold();
+                    col.Item().PaddingBottom(20).Row(row =>
+                    {
+                        row.AutoItem().Column(c =>
+                        {
+                            c.Item().BorderBottom(1).PaddingBottom(5).Text("Versículos:").Bold();
+                            c.Item().PaddingTop(5).PaddingLeft(10).Text(dto.Versiculos);
                         });
                     });
 
-                    // Footer
-                    col.Item().AlignCenter().PaddingTop(30).Text("Fuente de Vida Sogamoso");
+                    col.Item().Row(row =>
+                    {
+                        col.Item().Extend();
+                        row.RelativeItem(1).Column(c =>
+                        {
+                            c.Item().BorderBottom(1).PaddingBottom(5).Text("Promesa o Mandamiento:").Bold();
+                            c.Item().PaddingTop(5).PaddingLeft(10).Text(dto.Promesa);
+                        });
+
+                        row.RelativeItem(1).Column(c =>
+                        {
+                            c.Item().BorderBottom(1).PaddingBottom(5).Text("Para poner en práctica:").Bold();
+                            c.Item().PaddingTop(5).PaddingLeft(10).Text(dto.Practica);
+                        });
+                    });
+
+                });
+                
+                page.Footer().AlignCenter().Column(col =>
+                {
+                    col.Item().AlignCenter().Text("Fuente de Vida Sogamoso");
+                    col.Item().AlignCenter().Text(text =>
+                    {
+                        text.DefaultTextStyle(x => x.FontSize(10));
+                        text.Span("Página ");
+                        text.CurrentPageNumber();
+                        text.Span(" de ");
+                        text.TotalPages();
+                    });
+
                 });
             });
         });
