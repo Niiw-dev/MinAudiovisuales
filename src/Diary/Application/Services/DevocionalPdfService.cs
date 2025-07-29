@@ -68,7 +68,7 @@ public class DevocionalPdfService : IDevocionalPdfService
                         });
                     });
 
-                    col.Item().PaddingTop(50).Row(row =>
+                    col.Item().PaddingTop(25).Row(row =>
                     {
                         col.Item().Extend();
                         row.RelativeItem().PaddingRight(12).Column(c =>
@@ -86,7 +86,7 @@ public class DevocionalPdfService : IDevocionalPdfService
 
                 });
                 
-                page.Footer().AlignCenter().Column(col =>
+                page.Footer().AlignBottom().Column(col =>
                 {
                     col.Item().AlignCenter().Text("Fuente de Vida Sogamoso");
                     col.Item().AlignCenter().Text(text =>
