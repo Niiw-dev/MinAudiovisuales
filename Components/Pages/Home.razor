@@ -1,64 +1,178 @@
 ﻿@page "/"
-
+@rendermode InteractiveServer
+<style>
+    main{
+        height: 100%;
+    }
+</style>
 <div class="container my-4">
     <div class="row g-4">
         <!-- Pasos Para Devocional -->
-        <div class="col-12 col-lg-6">
-            <div class="card shadow p-4">
-                <div class="mb-4 text-center">
-                    <h1 class="fw-bold text-primary">Pasos Para Hacer Tu Devocional</h1>
-                </div>
-
-                @for (int i = 1; i <= 8; i++)
+        <div class="col-12 col-lg-6 align-items-center text-center">
+            <div class="card shadow p-4 text-center align-items-center">
+                @if (showSteps)
                 {
-                    <div class="card mb-3 border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-2">
-                                <h2 class="text-primary me-2 m-0">@i|</h2>
-                                <h5 class="m-0 fw-bold">
-                                    @{
-                                        var titles = new[]{
-                                            "ELIGE UN LIBRO DE LA BIBLIA",
-                                            "ELIGE UN LUGAR FIJO EN TU CASA",
-                                            "TEN A LA MANO LOS RECURSOS",
-                                            "INICIA CON UNA ORACIÓN",
-                                            "LEE, MARCA Y APUNTA",
-                                            "MEDITA EN TU LECTURA",
-                                            "FIN CON ORACIÓN",
-                                            "MEMORIZA TU LECTURA"
-                                        };
-                                        @titles[i - 1]
-                                    }
-                                </h5>
-                            </div>
-                            <p class="card-text">
-                                @{
-                                    var contents = new[]{
-                                        "No te recomiendo abrir tu Biblia al azar para leerla en tu devocional. Hacer esto te hará perder los aspectos importantes del texto y contexto de lo que estás leyendo.",
-                                        "Jamás hagas un devocional desde la comodidad de tu cama. Empezarás leyendo unas líneas de la Biblia y terminarás más dormido que la bella durmiente.",
-                                        "Debes tener a la mano todo aquello que emplearás para realizar tu devocional. Tu Biblia, un cuaderno, un lapicero (bolígrafo), marcadores, colores y sacapuntas, deben estar a tu alcance.",
-                                        "La Biblia es el alimento para tu alma y tal como haces con todos tus alimentos diarios debes orar antes de comer.",
-                                        "Vas a leer con un lapicero (bolígrafo) o marcador a la mano para marcar todo aquello que te llame la atención, es decir, un versículo que más te impacte, alguna palabra que puedas añadir a tu diccionario, y el resumen de aquello de lo que has leído.",
-                                        "Algunas preguntas que debes hacer durante la meditación son: ¿Por qué es importante este pasaje? ¿Qué necesito saber? ¿Qué dice acerca de Dios? ¿Qué dice de mí? ¿Cómo me apunta esta lectura a Jesús?",
-                                        "Termina tu tiempo devocional con una oración pero ten en cuenta lo que Dios te acaba de decir a través de lo que has leído.",
-                                        "En algunas oportunidades durante tu lectura devocional vas a encontrar versículos bíblicos que vas a marcar para luego memorizar. Si ese es el caso, anótalo en un papel aparte que pueda servirte como una nota para llevar a todos lados."
-                                    };
-                                    @contents[i - 1]
-                                }
-                            </p>
+                    <div class="d-flex flex-column justify-content-center align-items-center flex-grow-1" @onclick="showModalSteps">
+                        <div class="mb-4 text-center">
+                            <h1 class="fw-bold text-primary">Pasos Para Hacer Tu Devocional</h1>
                         </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex flex-column justify-content-center align-items-center flex-grow-1" @onclick="showModalSteps">
+                        <div class="mb-4 text-center">
+                            <h1 class="fw-bold text-primary">Pasos Para Hacer Tu Devocional</h1>
+                        </div>
+                        @for (int i = 1; i <= 8; i++)
+                        {
+                        <div class="card mb-3 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <h2 class="text-primary me-2 m-0">@i|</h2>
+                                    <h5 class="m-0 fw-bold">
+                                        @{
+                                            var titles = new[]
+                                            {
+                                                "ELIGE UN LIBRO DE LA BIBLIA",
+                                                "ELIGE UN LUGAR FIJO EN TU CASA",
+                                                "TEN A LA MANO LOS RECURSOS",
+                                                "INICIA CON UNA ORACIÓN",
+                                                "LEE, MARCA Y APUNTA",
+                                                "MEDITA EN TU LECTURA",
+                                                "FIN CON ORACIÓN",
+                                                "MEMORIZA TU LECTURA"
+                                            };
+                                            @titles[i - 1]
+                                        }
+                                    </h5>
+                                </div>
+                                <p class="card-text">
+                                    @{
+                                        var contents = new[]
+                                        {
+                                            "No te recomiendo abrir tu Biblia al azar para leerla en tu devocional. Hacer esto te hará perder los aspectos importantes del texto y contexto de lo que estás leyendo.",
+                                            "Jamás hagas un devocional desde la comodidad de tu cama. Empezarás leyendo unas líneas de la Biblia y terminarás más dormido que la bella durmiente.",
+                                            "Debes tener a la mano todo aquello que emplearás para realizar tu devocional. Tu Biblia, un cuaderno, un lapicero (bolígrafo), marcadores, colores y sacapuntas, deben estar a tu alcance.",
+                                            "La Biblia es el alimento para tu alma y tal como haces con todos tus alimentos diarios debes orar antes de comer.",
+                                            "Vas a leer con un lapicero (bolígrafo) o marcador a la mano para marcar todo aquello que te llame la atención, es decir, un versículo que más te impacte, alguna palabra que puedas añadir a tu diccionario, y el resumen de aquello de lo que has leído.",
+                                            "Algunas preguntas que debes hacer durante la meditación son: ¿Por qué es importante este pasaje? ¿Qué necesito saber? ¿Qué dice acerca de Dios? ¿Qué dice de mí? ¿Cómo me apunta esta lectura a Jesús?",
+                                            "Termina tu tiempo devocional con una oración pero ten en cuenta lo que Dios te acaba de decir a través de lo que has leído.",
+                                            "En algunas oportunidades durante tu lectura devocional vas a encontrar versículos bíblicos que vas a marcar para luego memorizar. Si ese es el caso, anótalo en un papel aparte que pueda servirte como una nota para llevar a todos lados."
+                                        };
+                                        @contents[i - 1]
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        }
                     </div>
                 }
             </div>
         </div>
 
         <!-- Nuestro Servicio -->
-        <div class="col-12 col-lg-6">
-            <div class="card shadow p-4 h-100">
-                <h2 class="text-center fw-bold text-secondary">Nuestro Servicio</h2>
-                <p class="mt-3">Aquí puedes colocar contenido adicional como descripciones del servicio, beneficios, o testimonios.</p>
-                <!-- Puedes agregar más contenido aquí -->
+        <div class="col-12 col-lg-6 align-items-center text-center">
+            <div class="card shadow p-4 text-center align-items-center">
+                @if (showService)
+                {
+                    <div class="d-flex flex-column justify-content-center align-items-center flex-grow-1" @onclick="showModalService">
+                        <div class="mb-4 text-center">
+                            <h1 class="fw-bold text-secondary">Nuestro Servicio</h1>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex flex-column justify-content-center align-items-center flex-grow-1" @onclick="showModalService">
+                        <div class="mb-4 text-center">
+                            <h1 class="fw-bold text-secondary">Nuestro Servicio</h1>
+                        </div>
+                        @for (int i = 1; i <= 8; i++)
+                        {
+                        <div class="card mb-3 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-2">
+                                    <h2 class="text-primary me-2 m-0">@i|</h2>
+                                    <h5 class="m-0 fw-bold">
+                                        @{
+                                            var titles = new[]
+                                            {
+                                                "ELIGE UN LIBRO DE LA BIBLIA",
+                                                "ELIGE UN LUGAR FIJO EN TU CASA",
+                                                "TEN A LA MANO LOS RECURSOS",
+                                                "INICIA CON UNA ORACIÓN",
+                                                "LEE, MARCA Y APUNTA",
+                                                "MEDITA EN TU LECTURA",
+                                                "FIN CON ORACIÓN",
+                                                "MEMORIZA TU LECTURA"
+                                            };
+                                            @titles[i - 1]
+                                        }
+                                    </h5>
+                                </div>
+                                <p class="card-text">
+                                    @{
+                                        var contents = new[]
+                                        {
+                                            "No te recomiendo abrir tu Biblia al azar para leerla en tu devocional. Hacer esto te hará perder los aspectos importantes del texto y contexto de lo que estás leyendo.",
+                                            "Jamás hagas un devocional desde la comodidad de tu cama. Empezarás leyendo unas líneas de la Biblia y terminarás más dormido que la bella durmiente.",
+                                            "Debes tener a la mano todo aquello que emplearás para realizar tu devocional. Tu Biblia, un cuaderno, un lapicero (bolígrafo), marcadores, colores y sacapuntas, deben estar a tu alcance.",
+                                            "La Biblia es el alimento para tu alma y tal como haces con todos tus alimentos diarios debes orar antes de comer.",
+                                            "Vas a leer con un lapicero (bolígrafo) o marcador a la mano para marcar todo aquello que te llame la atención, es decir, un versículo que más te impacte, alguna palabra que puedas añadir a tu diccionario, y el resumen de aquello de lo que has leído.",
+                                            "Algunas preguntas que debes hacer durante la meditación son: ¿Por qué es importante este pasaje? ¿Qué necesito saber? ¿Qué dice acerca de Dios? ¿Qué dice de mí? ¿Cómo me apunta esta lectura a Jesús?",
+                                            "Termina tu tiempo devocional con una oración pero ten en cuenta lo que Dios te acaba de decir a través de lo que has leído.",
+                                            "En algunas oportunidades durante tu lectura devocional vas a encontrar versículos bíblicos que vas a marcar para luego memorizar. Si ese es el caso, anótalo en un papel aparte que pueda servirte como una nota para llevar a todos lados."
+                                        };
+                                        @contents[i - 1]
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>
 </div>
+<script src="js/screenHelper.js"></script>
+@inject IJSRuntime JS
+@code
+{
+    private bool isMobile;
+    protected bool showSteps = true;
+    protected bool showService = true;
+
+    private bool initialized = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var width = await JS.InvokeAsync<int>("getScreenWidth");
+            isMobile = width < 550;
+
+            if (!isMobile)
+            {
+                showService = false;
+                showSteps = false;
+            }
+
+            initialized = true;
+            StateHasChanged();
+        }
+    }
+    
+    private void showModalSteps()
+    {
+        if (isMobile)
+            showSteps = !showSteps;
+    }
+    
+    private void showModalService()
+    {
+        if (isMobile)
+            showService = !showService;
+    }
+}

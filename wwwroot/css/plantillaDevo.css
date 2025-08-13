@@ -12,6 +12,7 @@
     overflow: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    height: 100%;
 }
 
 .main::-webkit-scrollbar {

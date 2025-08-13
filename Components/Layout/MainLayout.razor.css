@@ -12,7 +12,8 @@ main {
 
 .main{
     margin-top: 6rem;
-    height: max-content;
+/*    height: max-content;*/
+    height: 100%;
     padding-bottom: 30px;
 }
 
