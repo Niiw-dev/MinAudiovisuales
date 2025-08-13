@@ -10,6 +10,8 @@ using MinAudiovisual.Diary.Infrastructure.Repositories;
 using MinAudiovisual.Migrations;
 using MinAudiovisual.Servicios.Application.UseCases.Servicios;
 using MinAudiovisual.Servicios.Infrastructure.Persistence.Repositories;
+using MudBlazor.Services;
+
 
 // using MinAudiovisual.Application.Interfaces;
 // using MinAudiovisual.Application.UseCases;
@@ -21,6 +23,7 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddMudServices();
 builder.Services.AddSignalR();
 builder.Services.AddHttpClient();
 builder.Services.AddControllers();

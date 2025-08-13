@@ -144,7 +144,6 @@
     protected bool showSteps = true;
     protected bool showService = true;
 
-    private bool initialized = false;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -159,7 +158,6 @@
                 showSteps = false;
             }
 
-            initialized = true;
             StateHasChanged();
         }
     }
