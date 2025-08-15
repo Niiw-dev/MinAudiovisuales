@@ -1,11 +1,29 @@
 @page "/registros-devocionales"
+
 @using MinAudiovisual.Diary.Domain.Dto
 @using MinAudiovisual.Diary.Infrastructure.Interfaces
+
 @inject IDevocionalRepository DevocionalRepository
+
 @rendermode InteractiveServer
 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+<link href="_content/MudBlazor/MudBlazor.min.css?v=1" rel="stylesheet" />
+
+<script src="_content/MudBlazor/MudBlazor.min.js?v=1"></script>
+
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<style>
+    .mud-icon-button{
+        padding: 0 !important;
+    }
+</style>
+
 <div class="container mt-5">
-    <h2 class="text-center mb-4">📖 Devocionales Registrados</h2>
 
     @if (devocionales == null)
     {
@@ -17,16 +35,23 @@
     }
     else
     {
-        <MudTable Items="@devocionales" Hover="true" Filterable="true" Bordered="true" Striped="true" Dense="true" Breakpoint="Breakpoint.None">
+        <MudTable Items="@devocionales" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" 
+                  Filter="new Func<DevocionalDto,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1" Breakpoint="Breakpoint.None">
+            <ToolBarContent>
+                <MudText Typo="@TituloTypo">Devocionales Registrados</MudText>
+                <MudSpacer />
+                <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
             <HeaderContent>
-                <MudTh>Nombre</MudTh>
-                <MudTh>Fecha</MudTh>
-                <MudTh>Documento</MudTh>
+                <MudTh Class="text-center">Nombre</MudTh>
+                <MudTh Class="text-center">Fecha</MudTh>
+                <MudTh Class="text-center">Documento</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd>@context.Nombre</MudTd>
-                <MudTd>@context.FechaCreado.ToString("dd/MM/yyyy")</MudTd>
-                <MudTd>
+                <MudTd Class="text-center">@context.Nombre</MudTd>
+                <MudTd Class="text-center">@context.FechaCreado.ToString("dd/MM/yyyy")</MudTd>
+                <MudTd Class="text-center">
                     <MudButton Color="Color.Error" Variant="Variant.Filled" 
                                Href=@($"data:application/pdf;base64,{context.Documento}") 
                                fownload=@($"Devocional_{context.Nombre}")>
@@ -34,15 +59,56 @@
                     </MudButton>
                 </MudTd>
             </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
         </MudTable>
     }
 </div>
 
+<script src="js/screenHelper.js"></script> 
+@inject IJSRuntime JS
+
 @code {
-    private List<DevocionalDto> devocionales = new();
+    Typo TituloTypo => (windowWidth < 600) ? Typo.h6 : Typo.h4;
+    int windowWidth;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            windowWidth = await JS.InvokeAsync<int>("getScreenWidth");
+            StateHasChanged();
+        }
+    }
+    
+    private bool dense = true;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = true;
+    private string searchString1 = "";
+    private DevocionalDto selectedItem1 = new DevocionalDto();
+    private HashSet<DevocionalDto> selectedItems = new HashSet<DevocionalDto>();
+
+    private IEnumerable<DevocionalDto> devocionales = new List<DevocionalDto>();
 
     protected override async Task OnInitializedAsync()
     {
         devocionales = await DevocionalRepository.GetAllAsync();
     }
+
+    private bool FilterFunc1(DevocionalDto element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(DevocionalDto element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Nombre.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        var fechaTexto = element.FechaCreado.ToString("dd/MM/yyyy");
+        if (fechaTexto.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    
 }
