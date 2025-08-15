@@ -7,6 +7,7 @@
 
 @rendermode InteractiveServer
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
 <link href="_content/MudBlazor/MudBlazor.min.css?v=1" rel="stylesheet" />
 
@@ -24,25 +25,26 @@
 </style>
 
 <div class="container mt-5">
-
-    @if (devocionales == null)
-    {
-        <div class="alert alert-info text-center">Cargando...</div>
-    }
-    else if (!devocionales.Any())
-    {
-        <div class="alert alert-warning text-center">No hay devocionales registrados aún.</div>
-    }
-    else
-    {
-        <MudTable Items="@devocionales" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" 
-                  Filter="new Func<DevocionalDto,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1" Breakpoint="Breakpoint.None">
-            <ToolBarContent>
-                <MudText Typo="@TituloTypo">Devocionales Registrados</MudText>
-                <MudSpacer />
+    <MudTable Items="@devocionales" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped"
+              Filter="new Func<DevocionalDto, bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1" Breakpoint="Breakpoint.None">
+        <ToolBarContent>
+            <MudText Typo="@TituloTypo">Devocionales Registrados</MudText>
+            @if (devocionales == null)
+            {
+                <div class="alert alert-info text-center">Cargando...</div>
+            }
+            else if (!devocionales.Any())
+            {
+                <div class="alert alert-warning text-center">No hay devocionales registrados aún.</div>
+            }
+            else
+            {
+                <MudSpacer/>
                 <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start"
                               AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-            </ToolBarContent>
+            }
+        </ToolBarContent>
+        
             <HeaderContent>
                 <MudTh Class="text-center">Nombre</MudTh>
                 <MudTh Class="text-center">Fecha</MudTh>
@@ -52,18 +54,17 @@
                 <MudTd Class="text-center">@context.Nombre</MudTd>
                 <MudTd Class="text-center">@context.FechaCreado.ToString("dd/MM/yyyy")</MudTd>
                 <MudTd Class="text-center">
-                    <MudButton Color="Color.Error" Variant="Variant.Filled" 
-                               Href=@($"data:application/pdf;base64,{context.Documento}") 
+                    <MudButton Color="Color.Error" Variant="Variant.Filled"
+                               Href=@($"data:application/pdf;base64,{context.Documento}")
                                fownload=@($"Devocional_{context.Nombre}")>
                         <i class="bi bi-file-earmark-pdf-fill"></i>
                     </MudButton>
                 </MudTd>
             </RowTemplate>
             <PagerContent>
-                <MudTablePager />
+                <MudTablePager/>
             </PagerContent>
-        </MudTable>
-    }
+    </MudTable>
 </div>
 
 <script src="js/screenHelper.js"></script> 
