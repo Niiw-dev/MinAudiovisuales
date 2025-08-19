@@ -1,67 +1,130 @@
 @page "/lista-servicios"
+
 @using MinAudiovisual.Servicios.Application.Interfaces
 @using MinAudiovisual.Servicios.Domain.Entities
+
 @inject IServicioRepository ServicioRepository
 
+@rendermode InteractiveServer
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+<link href="_content/MudBlazor/MudBlazor.min.css?v=1" rel="stylesheet" />
+
+<script src="_content/MudBlazor/MudBlazor.min.js?v=1"></script>
+
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<style>
+    .mud-icon-button{
+        padding: 0 !important;
+    }
+</style>
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">🎤 Servicios Registrados</h2>
-
-    @if (servicios == null)
-    {
-        <div class="alert alert-info text-center">Cargando...</div>
-    }
-    else if (!servicios.Any())
-    {
-        <div class="alert alert-warning text-center">No hay servicios registrados aún.</div>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered align-middle text-center">
-            @foreach (var servicio in servicios)
+    <MudTable Items="@servicios" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped"
+              Filter="new Func<Servicio, bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1" Breakpoint="Breakpoint.None">
+        <ToolBarContent>
+            <MudText Typo="@TituloTypo">Servicios Registrados</MudText>
+            @if (servicios == null)
             {
-                <thead class="table-dark">
-                <tr>
-                    <th>Día</th>
-                    <th>Hora</th>
-                    <th>Tipo Servicio</th>
-                    <th>Evento</th>
-                    <th>Responsable</th>
-                    <th>Prédica</th>
-                    <th>Orden de Canciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>@servicio.FechaHora.ToString("dd/MM/yyyy")</td>
-                    <td>@servicio.FechaHora.ToString("hh:mm")</td>
-                    <td>@servicio.Tipo</td>
-                    @if (servicio.Tipo == "Evento")
-                    {
-                        <td>@servicio.NombreEvento</td>
-                    }
-                    else
-                    {
-                        <td>@servicio.Tipo</td>
-                    }
-                    <td>@servicio.NombreResponsable</td>
-                    <td>@servicio.Detalle?.Predica</td>
-                    <td>@servicio.Detalle?.OrdenCanciones</td>
-                </tr>
-                </tbody>
+                <div class="alert alert-info text-center">Cargando...</div>
             }
-            </table>
-        </div>
-    }
+            else if (!servicios.Any())
+            {
+                <div class="alert alert-warning text-center">No hay servicios registrados aún.</div>
+            }
+            else
+            {
+                <MudSpacer/>
+                <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            }
+        </ToolBarContent>
+        
+        <HeaderContent>
+            <MudTh Class="text-center">Día</MudTh>
+            <MudTh Class="text-center">Hora</MudTh>
+            <MudTh Class="text-center">Tipo Servicio</MudTh>
+            <MudTh Class="text-center">Evento</MudTh>
+            <MudTh Class="text-center">Responsable</MudTh>
+            <MudTh Class="text-center">Prédica</MudTh>
+            <MudTh Class="text-center">Orden de Canciones</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd Class="text-center">@context.FechaHora.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd Class="text-center">@context.FechaHora.ToString("hh:mm")</MudTd>
+            <MudTd Class="text-center">@context.Tipo</MudTd>
+            @if (context.Tipo == "Evento")
+            {
+                <MudTd Class="text-center">@context.NombreEvento</MudTd>
+            }
+            else
+            {
+                <MudTd Class="text-center">@context.Tipo</MudTd>
+            }
+            <MudTd Class="text-center">@context.NombreResponsable</MudTd>
+            <MudTd Class="text-center">@context.Detalle?.Predica</MudTd>
+            <MudTd Class="text-center">@context.Detalle?.OrdenCanciones</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager/>
+        </PagerContent>
+    </MudTable>
 </div>
 
+<script src="js/screenHelper.js"></script> 
+@inject IJSRuntime JS
+
 @code {
-    private List<Servicio> servicios = new();
+    Typo TituloTypo => (windowWidth < 600) ? Typo.h6 : Typo.h4;
+    int windowWidth;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            windowWidth = await JS.InvokeAsync<int>("getScreenWidth");
+            StateHasChanged();
+        }
+    }
+    
+    private bool dense = true;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = true;
+    private string searchString1 = "";
+    private Servicio selectedItem1 = new Servicio();
+    private HashSet<Servicio> selectedItems = new HashSet<Servicio>();
+
+    private IEnumerable<Servicio> servicios = new List<Servicio>();
 
     protected override async Task OnInitializedAsync()
     {
         servicios = await ServicioRepository.GetAllAsync();
+    }
+
+    private bool FilterFunc1(Servicio element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(Servicio element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Tipo.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        var fechaTexto = element.FechaHora.ToString("dd/MM/yyyy");
+        if (fechaTexto.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        var horaTexto = element.FechaHora.ToString("hh:mm");
+        if (horaTexto.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.NombreResponsable.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Observaciones.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
     }
 }
