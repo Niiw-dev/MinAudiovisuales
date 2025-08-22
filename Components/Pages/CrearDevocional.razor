@@ -2,106 +2,98 @@
 @using Microsoft.Net.Http.Headers
 @using MinAudiovisual.Diary.Domain.Dto
 @using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue
+@using MudBlazor
 @inject HttpClient Http
 @rendermode InteractiveServer
 
-<style>
-    .input-pair {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
 
-    .input-block {
-        flex: 1 1 250px;
-        min-width: 200px;
-    }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+<script src="_framework/blazor.server.js"></script>
+<script src="_content/MudBlazor/MudBlazor.min.js"></script>
 
-    .input-block label {
-        font-weight: 500;
-        margin-bottom: 0.25rem;
-    }
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-    .input-block .form-control {
-        height: 34px;
-        font-size: 0.9rem;
-    }
-</style>
+<MudContainer MaxWidth="MaxWidth.Medium" Class="my-4" Style="width:100%">
 
-<div class="container my-4">
-    <div class="row g-4">
-        <!-- Subir Devocional -->
-        <div class="col-12">
-            <div class="card shadow p-4">
-                <h3 class="mb-4">Subir Devocional</h3>
+    <!-- Subir Devocional -->
+    <MudPaper Elevation="4" Class="p-6 mb-6" Style="padding: 40px 30px; width:100%">
+        <MudText Typo="Typo.h5" Class="mb-4">Subir Devocional</MudText>
 
-                <EditForm Model="@devocionalUp" OnValidSubmit="SubirDevocional" FormName="SubirDevocionalForm">
-                    <div class="input-pair">
-                        <div class="input-block">
-                            <label>Nombre:</label>
-                            <InputText name="nameUp" class="form-control" @bind-Value="devocionalUp.Nombre" />
-                        </div>
-
-                        <div class="input-block">
-                            <label>Selecciona imagen:</label>
-                            <InputFile class="form-control" OnChange="OnInputFileChange" />
-                        </div>
-                        <button class="btn btn-primary w-100 mt-2" type="submit">Subir Devocional</button>
-                    </div>
-
-                    @if (!string.IsNullOrWhiteSpace(mensajeExito))
+        <MudForm @ref="formUp" Model="@devocionalUp">
+            <MudTextField @bind-Value="devocionalUp.Nombre" Label="Nombre" Required="true" />
+            <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles2" MaximumFileCount="1" 
+                    Class="my-4 w-auto" MaxFileSize="10000000">
+                <ActivatorContent>
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Primary"
+                               StartIcon="@Icons.Material.Filled.CloudUpload" Class="w-100">
+                        Subir Imagen
+                    </MudButton>
+                </ActivatorContent>
+            </MudFileUpload>
+            
+            @if (files != null)
+            {
+                <MudText Typo="@Typo.h6">@files.Count() File@(files.Count() == 1 ? "" : "s"):</MudText>
+                <MudList T="string">
+                    @foreach (var file in files)
                     {
-                    <div class="alert alert-success mt-3">@mensajeExito</div>
+                        <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@file">
+                            @file.Name <code>@file.Size bytes</code>
+                        </MudListItem>
                     }
-                    @if (!string.IsNullOrWhiteSpace(mensajeError))
-                    {
-                    <div class="alert alert-danger mt-3">@mensajeError</div>
-                    }
-                </EditForm>
-            </div>
-        </div>
+                </MudList>
+            }
 
-        <!-- Hacer Devocional -->
-        <div class="col-12">
-            <div class="card shadow p-4">
-                <h3 class="mb-4">Hacer Devocional</h3>
+            <MudButton OnClick="SubirDevocional" Variant="Variant.Filled" Color="Color.Primary" Class="mt-4 w-100">
+                Enviar Devocional
+            </MudButton>
 
-                <EditForm Model="@devocionalCreate" OnValidSubmit="GenerarPDF" FormName="CrearDevocionalForm">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre:</label>
-                        <InputText name="nameCreate" @bind-Value="devocionalCreate.Nombre" class="form-control" />
-                    </div>
+            @if (!string.IsNullOrWhiteSpace(mensajeExito))
+            {
+                <MudAlert Severity="Severity.Success" Class="mt-3">@mensajeExito</MudAlert>
+            }
+            @if (!string.IsNullOrWhiteSpace(mensajeError))
+            {
+                <MudAlert Severity="Severity.Error" Class="mt-3">@mensajeError</MudAlert>
+            }
+        </MudForm>
+    </MudPaper>
 
-                    <div class="mb-3">
-                        <label class="form-label">Tema:</label>
-                        <InputText @bind-Value="devocionalCreate.Tema" class="form-control" />
-                    </div>
+    <!-- Hacer Devocional -->
+    <MudPaper Elevation="4" Class="p-6" Style="padding: 40px 30px; width:100%">
+        <MudText Typo="Typo.h5" Class="mb-4">Hacer Devocional</MudText>
 
-                    <div class="mb-3">
-                        <label class="form-label">Versículos:</label>
-                        <InputTextArea class="form-control" @bind-Value="devocionalCreate.Versiculos" />
-                    </div>
+        <MudForm @ref="formCreate" Model="@devocionalCreate">
+            <MudTextField @bind-Value="devocionalCreate.Nombre" Label="Nombre" Required="true" Class="mb-3" Clearable="true" Immediate="true"/>
+            <MudTextField @bind-Value="devocionalCreate.Tema" Label="Tema" Required="true" Class="mb-3" Clearable="true" Immediate="true"/>
+            <MudTextField @bind-Value="devocionalCreate.Versiculos" Label="Versículos" Required="true" AutoGrow Lines="2" Class="mb-3" Clearable="true" Immediate="true"/>
+            <MudTextField @bind-Value="devocionalCreate.Promesa" Label="¿Que me habló Dios" Required="true" AutoGrow Lines="4" Class="mb-3" Clearable="true" Immediate="true"/>
+            <MudTextField @bind-Value="devocionalCreate.Practica" Label="Para poner en práctica" Required="true" AutoGrow Lines="4" Class="mb-3" Clearable="true" Immediate="true"/>
 
-                    <div class="mb-3">
-                        <label class="form-label">Promesa o Mandamiento:</label>
-                        <InputTextArea class="form-control" @bind-Value="devocionalCreate.Promesa" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Para poner en práctica:</label>
-                        <InputTextArea class="form-control" @bind-Value="devocionalCreate.Practica" />
-                    </div>
-
-                    <button class="btn btn-primary w-100" type="submit">Guardar y Generar PDF</button>
-                </EditForm>
-            </div>
-        </div>
-    </div>
-</div>
+            <MudButton OnClick="GenerarPDF" Variant="Variant.Filled" Color="Color.Primary" Class="w-100">
+                Guardar y Generar PDF
+            </MudButton>
+        </MudForm>
+    </MudPaper>
+</MudContainer>
 
 @code {
     private DevocionalDto devocionalUp = new();
     private DevocionalDto devocionalCreate = new();
+
+    private MudForm? formUp;
+    private MudForm? formCreate;
+
+    IList<IBrowserFile> files = new List<IBrowserFile>();
+    IBrowserFile? imagen;
+    private string mensajeExito = "";
+    private string mensajeError = "";
 
     private async Task GenerarPDF()
     {
@@ -111,13 +103,17 @@
         await stream.CopyToAsync(fs);
     }
 
-    private IBrowserFile? imagen;
-    private string mensajeExito = "";
-    private string mensajeError = "";
-
-    private void OnInputFileChange(InputFileChangeEventArgs e)
+    private void UploadFiles2(IBrowserFile file)
     {
-        imagen = e.File;
+        if (files.Count > 0)
+        {
+            files[0] = file;
+        }
+        else
+        {
+            files.Add(file);
+        }
+        imagen = files[0];
     }
 
     private async Task SubirDevocional()
@@ -125,14 +121,20 @@
         mensajeExito = "";
         mensajeError = "";
 
-        if (imagen is null || string.IsNullOrWhiteSpace(devocionalUp.Nombre))
+        if (!files.Any() || string.IsNullOrWhiteSpace(devocionalUp.Nombre))
         {
             mensajeError = "Faltan datos.";
             return;
         }
 
-        var content = new MultipartFormDataContent();
-        var fileContent = new StreamContent(imagen.OpenReadStream(maxAllowedSize: 10_000_000));
+        if (files.Count >= 2)
+        {
+            mensajeError = "Solo se permite un archivo";
+            return;
+        }
+
+        using var content = new MultipartFormDataContent();
+        using var fileContent = new StreamContent(imagen!.OpenReadStream(maxAllowedSize: 10_000_000));
 
         fileContent.Headers.ContentType = !string.IsNullOrWhiteSpace(imagen.ContentType)
             ? new MediaTypeHeaderValue(imagen.ContentType)
@@ -147,6 +149,7 @@
         {
             mensajeExito = "✅ Devocional creado con éxito.";
             devocionalUp = new();
+            files.Clear();
             imagen = null;
             StateHasChanged();
             await Task.Delay(3000);

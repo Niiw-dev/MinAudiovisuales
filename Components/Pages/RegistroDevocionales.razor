@@ -48,15 +48,17 @@
         <HeaderContent>
             <MudTh Class="text-center">Nombre</MudTh>
             <MudTh Class="text-center">Fecha</MudTh>
+            <MudTh Class="text-center">Hora</MudTh>
             <MudTh Class="text-center">Documento</MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd Class="text-center">@context.Nombre</MudTd>
             <MudTd Class="text-center">@context.FechaCreado.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd Class="text-center">@context.FechaCreado.ToString("hh:mm")</MudTd>
             <MudTd Class="text-center">
                 <MudButton Color="Color.Error" Variant="Variant.Filled"
                            Href=@($"data:application/pdf;base64,{context.Documento}")
-                           fownload=@($"Devocional_{context.Nombre}")>
+                           download=@($"Devocional_{context.Nombre}")>
                     <i class="bi bi-file-earmark-pdf-fill"></i>
                 </MudButton>
             </MudTd>

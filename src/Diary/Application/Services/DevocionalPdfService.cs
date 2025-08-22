@@ -174,8 +174,8 @@ public class DevocionalPdfService : IDevocionalPdfService
         var devocional = new DevocionalDto()
         {
             Nombre = nombre,
-            Fecha = DateTime.Today,
-            FechaCreado = DateTime.Today,
+            Fecha = DateTime.Now,
+            FechaCreado = DateTime.Now,
             Documento = base64
         };
         
