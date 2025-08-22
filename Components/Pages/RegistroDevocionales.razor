@@ -25,7 +25,7 @@
 </style>
 
 <div class="container mt-5">
-    <MudTable Items="@devocionales" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped"
+    <MudTable Items="@devocionales" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="padding: 40px 30px;"
               Filter="new Func<DevocionalDto, bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1" Breakpoint="Breakpoint.None">
         <ToolBarContent>
             <MudText Typo="@TituloTypo">Devocionales Registrados</MudText>
