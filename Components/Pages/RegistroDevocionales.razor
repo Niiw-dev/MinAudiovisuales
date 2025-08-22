@@ -25,24 +25,26 @@
 </style>
 
 <div class="container mt-5">
-    <MudTable Items="@devocionales" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="padding: 40px 30px;"
+    <MudTable Items="@devocionales" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="padding: 20px 20px;"
               Filter="new Func<DevocionalDto, bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1" Breakpoint="Breakpoint.None">
         <ToolBarContent>
-            <MudText Typo="@TituloTypo">Devocionales Registrados</MudText>
-            @if (devocionales == null)
-            {
-                <div class="alert alert-info text-center">Cargando...</div>
-            }
-            else if (!devocionales.Any())
-            {
-                <div class="alert alert-warning text-center">No hay devocionales registrados aún.</div>
-            }
-            else
-            {
-                <MudSpacer/>
-                <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start"
-                              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-            }
+            <MudGrid Spacing="2">
+                <MudText Typo="@TituloTypo">Devocionales Registrados</MudText>
+                @if (devocionales == null)
+                {
+                    <div class="alert alert-info text-center">Cargando...</div>
+                }
+                else if (!devocionales.Any())
+                {
+                    <div class="alert alert-warning text-center">No hay devocionales registrados aún.</div>
+                }
+                else
+                {
+                    <MudSpacer/>
+                    <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                }
+            </MudGrid>
         </ToolBarContent>
         
         <HeaderContent>

@@ -19,7 +19,7 @@ public class CreateServicioUseCase
         {
             Tipo = dto.Tipo,
             NombreEvento = dto.NombreEvento,
-            FechaHora = dto.FechaHora,
+            FechaHora = dto.FechaHora ?? DateTime.Now,
             NombreResponsable = dto.NombreResponsable,
             Observaciones = dto.Observaciones,
             Mejoras = dto.Mejoras,
