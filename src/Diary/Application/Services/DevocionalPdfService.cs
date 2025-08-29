@@ -57,7 +57,7 @@ public class DevocionalPdfService : IDevocionalPdfService
                         });
                     });
                     
-                    col.Item().AlignCenter().Text("Devocional").FontSize(22).Bold();
+                    col.Item().PaddingTop(20).AlignCenter().Text("Devocional").FontSize(22).Bold();
                     col.Item().PaddingBottom(30).AlignCenter().Text(dto.Tema).FontSize(18).Bold();
                     col.Item().Row(row =>
                     {
